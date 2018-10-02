@@ -1,0 +1,13 @@
+﻿@model WebApplication3.Models.MyNorthwindViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<div class="col-md-6">
+    @Html.Partial("CustomerPartialView", Model.TheCustomer)
+</div>
+<div class="col-md-6">
+    @Html.Partial("OrderPartialView", Model.TheOrder)
+</div>
+@Html.Partial("OrderDetailsPartialView", Model.TheOrderDetails)

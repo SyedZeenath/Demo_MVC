@@ -1,0 +1,153 @@
+﻿@model WebApplication6.ViewModel.DemoViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div class="form-horizontal" role="form">
+    <div class="form-group">
+        <label for="ddlCountry" class="col-md-2 control-label">Country: </label>
+        <div class="col-md-10">
+            @Html.DropDownList("ddlCountry", Model.Countries,
+           "--- Select Country ---", new { @class="form-control"})
+        </div>
+    </div>
+    <div id="stateDiv" class="form-group">
+        <label for="ddlState" class="col-md-2 control-label">State: </label>
+        <div class="col-md-10">
+            @*@Html.DropDownList("ddlState", Model.States,
+                "--- Select State ---", new { @class="form-control"})*@
+            <select id="ddlState" name="ddlState" class="form-control">
+                <option>---- Select State ----</option>
+            </select>
+        </div>
+    </div>
+    <div id="CityDiv" class="form-group">
+        <label for="ddlCity" class="col-md-2 control-label">City: </label>
+        <div class="col-md-10">
+            @*@Html.DropDownList("ddlCity", Model.Cities,
+                "--- Select City ---", new { @class="form-control"})*@
+            <select id="ddlCity" name="ddlCity" class="form-control">
+                <option>---- Select City ----</option>
+            </select>
+        </div>
+    </div>
+    <div id="statusMessage"></div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () { // this says document on ready
+            $('#ddlCountry').on('change', function () {
+                var selectedCountry = $('#ddlCountry').val();
+                var data = { 'countryId': selectedCountry };
+                // debugger;
+                alert(selectedCountry);
+                $.ajax({
+                    type: 'POST',
+                    url: '/Demo/GetStates',
+                    data: JSON.stringify(data),
+                    crossDomain: true,
+                    contentType: 'application/json;charset=utf-8',
+                    success: function (responseData) {
+                        alert('received data');
+                        alert(JSON.stringify(responseData));
+                        //$('#ddlState').empty();
+                        //$('#ddlCity').empty();
+                        //var create;
+                        //create += '<option>---Select State ---</option>';
+                        //for (var i = 0; i < responseData["States"].length; i++) {
+                        //    create += '<option value="' + responseData["States"][i].Value + '">' + responseData["States"][i].Text + '</option>';
+                        //}
+                        //$('#ddlState').append(create);
+                        helpers.buildDropDown(responseData.States, $('#ddlState'), '----select State---');
+                        helpers.buildDropDown(responseData.Cities, $('#ddlCity'), '----select City---');
+
+
+                    },
+                    error: function (jqXHR, textStatus, err) {
+                        var errmsg = '<br/><b>Error :</b> ' + err
+                            + '<br/><b>Status :</b> ' + textStatus
+                            + '<br/><b>Error Details :</b> ' + err.statusText
+
+                        $('#statusMessage').addClass('alert-danger');
+                        $('#statusMessage').html("Something went wrong while svng chnged data");
+                    },
+                });
+            });
+
+
+
+
+            $('#ddlState').on('change', function () {
+                //debugger;
+                var selectedState = $('#ddlState').val();
+                var data = { 'stateId': selectedState };
+
+                alert(selectedState);
+                $.ajax({
+                    type: 'POST',
+                    url: '/Demo/GetCities',
+                    data: JSON.stringify(data),
+                    crossDomain: true,
+                    contentType: 'application/json;charset=utf-8',
+                    success: function (responseData) {
+                        alert('received data');
+                        alert(JSON.stringify(responseData));
+                        //$('#ddlState').empty();
+                        //$('#ddlCity').empty();
+                        //var create;
+                        //create += '<option>---Select State ---</option>';
+                        //for (var i = 0; i < responseData["States"].length; i++) {
+                        //    create += '<option value="' + responseData["States"][i].Value + '">' + responseData["States"][i].Text + '</option>';
+                        //}
+                        //$('#ddlState').append(create);
+                        helpers.buildDropDown(responseData.Cities, $('#ddlCity'), '----select City---');
+                        // helpers.buildDropDown(responseData.Cities, $('#ddlCity'), '----select City---');
+
+
+                    },
+                    error: function (jqXHR, textStatus, err) {
+                        var errmsg = '<br/><b>Error :</b> ' + err
+                            + '<br/><b>Status :</b> ' + textStatus
+                            + '<br/><b>Error Details :</b> ' + err.statusText
+
+                        $('#statusMessage').addClass('alert-danger');
+                        $('#statusMessage').html("Something went wrong while svng chnged data");
+                    },
+                });
+            });
+
+        });
+
+        var helpers = {
+            buildDropDown: function (jsonResult, dropdown, emptyMessage) {
+                //emove current options in the dropdown list
+                dropdown.html('');
+
+                //add the empty option with te empty essage if avilable
+                if (emptyMessage != '' || emptyMessage != undefined) {
+                    dropdown.append('<option value="">' + emptyMessage + '</option>');
+                }
+
+                //chk if result isnt empty
+                if (jsonResult != '') {
+                    //loop through each of the results an dappend the option in the drop down
+                    $.each(jsonResult, function (index, item) {
+
+                        dropdown.append('<option value="' + item.Value + '">' + item.Text + '</option>');
+
+
+
+                    });
+                }
+            }
+
+        }
+
+    </script>
+
+}
+

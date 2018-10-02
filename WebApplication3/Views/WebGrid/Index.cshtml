@@ -1,0 +1,10 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    var grid = new WebGrid(ViewBag.data);
+}
+
+<h2>Index</h2>
+
+@grid.GetHtml()
+

@@ -1,0 +1,33 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Error</title>
+</head>
+<body>
+    <hgroup>
+        <h1>Error.</h1>
+        <h2>An error occurred while processing your request.</h2>
+        <table cellspacing="0" cellpadding="5" border="1">
+            <tr>
+                <th>Controller</th>
+                <td>@Model.ControllerName</td>
+            </tr>
+            <tr>
+                <th>Action</th>
+                <td>@Model.ActionName</td>
+            </tr>
+            <tr>
+                <th>Exception Message</th>
+                <td>@Model.Exception.Message</td>
+            </tr>
+            <tr>
+                <th>Exception Type</th>
+                <td>@Model.Exception.GetType().ToString()</td>
+            </tr>
+        </table>
+    </hgroup>
+</body>
+</html>

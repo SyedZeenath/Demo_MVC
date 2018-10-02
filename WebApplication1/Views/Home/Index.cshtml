@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>My first ASP.NET MVC5 Web Page</h2>
+
+Hello World!
+@{ 
+    string s = "another world";
+    <p>@s</p>     
+    <p>@{
+        string s2 = "different world";
+        Response.Write("<b>" + s2 + "</b>"); // generates html for c# code, runs much faster than all
+        }</p>
+}
+@{ 
+    string x = "Hello world";
+    <ul>
+        
+            @for(int i=0; i<10; i++)
+            {
+                <li>@x</li>
+
+            }
+        
+    </ul>
+}

@@ -1,0 +1,15 @@
+﻿@model WebApplication1.Models.EmployeeModel
+
+@{
+    ViewBag.Title = "ModelDemo";
+}
+
+<h2>Demo of Model</h2>
+@* Name: @ViewBag.Employee.Name *@
+
+@if (Model != null && Model is WebApplication1.Models.EmployeeModel)
+{
+<p>ID: @Model.ID</p>
+<p>Name: @Model.Name</p>
+<p>City: @Model.City</p>
+}
